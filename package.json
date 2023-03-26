@@ -34,6 +34,7 @@
 	"type": "module",
 	"dependencies": {
 		"@picocss/pico": "^1.5.7",
-		"openai": "^3.2.1"
+		"openai": "^3.2.1",
+		"svelte-seo": "^1.4.1"
 	}
 }

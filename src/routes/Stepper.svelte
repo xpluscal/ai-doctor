@@ -41,6 +41,22 @@
         margin-top: 1rem;
     }
 
+    .steps div.active::before{
+        background: #333;
+        color: #fefefe;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .steps div::before {
+            background: #333;
+        }
+
+        .steps div.active::before{
+            background: #fefefe;
+            color: #333;
+        }
+    }
+
     .active{
         font-weight: bold;
     }

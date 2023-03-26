@@ -1,6 +1,7 @@
 <script>
 import {enhance} from '$app/forms';
 import Stepper from './Stepper.svelte';
+import SvelteSeo from "svelte-seo";
 
   let step = 0;
   let chiefComplaint;
@@ -55,6 +56,24 @@ import Stepper from './Stepper.svelte';
   }
 </style>
 
+<svelte:head>
+  <title>AI Doctor | Self Assessment</title>
+</svelte:head>
+
+<SvelteSeo
+  title="AI Doctor | Self Assessment"
+  description="Get a preliminary evaluation of your health concerns using AI-powered medical assessment."
+  canonical="https://www.ai-doctor.com/"
+  keywords="AI doctor, artificial intelligence, medical assessment, health evaluation, self-assessment"
+  openGraph={{
+    title: 'AI Doctor | AI-Powered Medical Assessment',
+    description: 'Get a preliminary evaluation of your health concerns using AI-powered medical assessment.',
+    image: 'https://www.ai-doctor.com/svelte-seo.png',
+    url: 'https://www.ai-doctor.com/',
+    type: 'website',
+    site_name: 'AI Doctor'
+  }}
+/>
 <div class="form-container">
     <div class="header">
         <a href="/"><img src="/logo.svg" alt="AI Doctor" class="logo"></a>
