@@ -19,6 +19,7 @@
         flex-direction: row;
         align-items: center;
         counter-reset: section;
+        margin-bottom: 1rem;
     }
 
     .steps div {
@@ -30,13 +31,12 @@
     .steps div::before {
         counter-increment: section;
         content: counter(section);
-        display: flex;
-        width: 2rem;
-        height: 2rem;
-        line-height: 0;
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
         border-radius: 50%;
         background: #ccc;
-        padding: 0.5rem;
+        /* padding: 0.5rem; */
         margin-right: 1rem;
         margin-top: 1rem;
     }

@@ -60,7 +60,9 @@ import Stepper from './Stepper.svelte';
         <span>Self Assessment</span>
     </div>
 
+    {#if state !== 4 && state !== 2}
     <Stepper current={step}/>
+    {/if}
   {#if state === 1}
   <form method="POST" action="?/submit" use:enhance={({ form, data, cancel }) => {
         loading = true;

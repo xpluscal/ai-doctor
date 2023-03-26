@@ -13,9 +13,9 @@ const openai = new OpenAIApi(configuration);
 export const actions = {
   submit: async ({ cookies, request, locals }) => {
     const form = await request.formData();
-    console.log("FORM:");
+    // console.log("FORM:");
 
-    console.log(Object.fromEntries(form));
+    // console.log(Object.fromEntries(form));
 
     const userData:UserData = {
         ...Object.fromEntries(form)
@@ -25,7 +25,7 @@ export const actions = {
         const diagnosis = createDiagnosisPrompt(userData);
         const diagnosisResponse = await callGPTApi(diagnosis);
 
-        console.log(diagnosisResponse);
+        // console.log(diagnosisResponse);
 
         const parseDiagnosticResponse = JSON.parse(diagnosisResponse);
 
@@ -34,14 +34,14 @@ export const actions = {
 
         for (const diagnosis of parseDiagnosticResponse) {
             const treatment = createTreatmentsPrompt(JSON.stringify(diagnosis));
-            console.log(treatment);
+            // console.log(treatment);
             const treatmentResponse = await callGPTApi(treatment);
-            console.log(treatmentResponse);
+            // console.log(treatmentResponse);
             treatments.push(JSON.parse(treatmentResponse));
             const nextStep = createNextStepsPrompt(JSON.stringify(diagnosis));
-            console.log(nextStep);
+            // console.log(nextStep);
             const nextStepResponse = await callGPTApi(nextStep);
-            console.log(nextStepResponse);
+            // console.log(nextStepResponse);
             nextSteps.push(JSON.parse(nextStepResponse));
         }
 
