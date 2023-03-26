@@ -58,8 +58,21 @@ import { page } from '$app/stores';
   }
 
   .scroll-modal{
-    height: 160px;
+    height: 250px;
+    max-height: 80vh;
     overflow-y: scroll;
+  }
+
+  footer{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  footer small{
+    font-size: 0.8rem;
+    max-width: 400px;
+    margin-right: 1rem;
   }
 </style>
 
@@ -217,19 +230,32 @@ import { page } from '$app/stores';
 
 <dialog open={modalOpen}>
   <article>
-    <header>
-      <!-- <a href="#close" aria-label="Close" class="close"></a> -->
-      Terms of Use
-    </header>
     <div class="scroll-modal">
+      <h3>Terms of Use</h3>
       <small>
         <p>By using this website, you acknowledge and agree that the website owners and operators, including their employees, agents, or partners, shall not be held responsible or liable for any consequences, direct or indirect, arising from the information provided on this website, including any diagnosis, potential treatments, and next steps.</p>
         <p>You understand that the information provided is for informational and educational purposes only and should not be considered professional medical advice, diagnosis, or treatment.</p>
         <p>You agree to seek the advice of a qualified healthcare professional for any health or medical concerns before making any decisions based on the information provided on this website.</p>
         <p>The website owners and operators disclaim all liability for any damages or losses, direct or indirect, that may result from your use of or reliance on the information provided on this website.</p>
       </small>
+      <br/>
+      <h3>Privacy Policy</h3>
+      <small>
+        <p>This Privacy Policy explains how we collect, use, and protect your personal information when you use our website. By using our website, you agree to the terms of this Privacy Policy.</p>
+        <ol>
+          <li><b>Information Collection and Use:</b><br>We collect and use the information you provide when you use our website, such as your name, age, sex, weight, height, occupation, lifestyle, and medical history, for the sole purpose of providing you with a preliminary health evaluation using our AI Doctor service. This information is only temporarily stored on our server during the processing of your request.</li>
+          <li><b>Data Sharing with Third Parties:</b><br>In order to provide our AI Doctor service, we use the OpenAI API to process your personal information. By using our website, you agree to the processing of your data by OpenAI in accordance with their privacy policy. We do not share your personal information with any other third parties, except when required by law or to protect the rights, property, or safety of our users or the public.</li>
+          <li><b>Data Retention:</b><br>Your personal information is only stored on our server for a temporary period during the processing of your AI Doctor request. Once the processing is complete, your personal information is promptly deleted from our server.</li> 
+          <li><b>Security:</b><br>We are committed to ensuring the security of your personal information. We use appropriate technical and organizational measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. However, please note that no method of electronic storage or transmission is 100% secure, and we cannot guarantee absolute security of your personal information.</li>
+          <li><b>Children's Privacy:</b><br>Our website is not intended for use by individuals under the age of 13. We do not knowingly collect personal information from children under the age of 13. If we become aware that a child under the age of 13 has provided us with personal information, we will take steps to delete such information from our records.</li>
+          <li><b>Changes to this Privacy Policy:</b><br>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</li>
+          <li><b>Contact Us:</b><br>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:calvin.hoenes@proton.me">calvin.hoenes@proton.me</a>.</li>
+        </ol>
+        <p>By using our website and providing your personal information, you acknowledge and agree to the terms of this Privacy Policy.</p>
+      </small>
     </div>
     <footer>
+      <small>By clicking on "Accept" you agree to the terms of this Privacy Policy and Terms of Use.</small>
       <a on:click={() => modalOpen = false} href="#confirm" role="button">Accept</a>
     </footer>
   </article>
