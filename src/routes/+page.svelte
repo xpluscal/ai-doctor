@@ -5,7 +5,7 @@ import SvelteSeo from "svelte-seo";
 import { page } from '$app/stores';
 
   let step = 0;
-  let chiefComplaint;
+  let chiefComplaint = "";
   let name;
   let age;
   let sex;
@@ -113,10 +113,15 @@ import { page } from '$app/stores';
   openGraph={{
     title: 'AI Doctor | AI-Powered Medical Assessment',
     description: 'Get a preliminary evaluation of your health concerns using AI-powered medical assessment.',
-    image: $page.url.origin + '/seo-image.png',
+    images: [
+      {
+        url: $page.url.origin + '/seo-image.png',
+        width: 1200,
+        height: 630
+      },
+    ],
     url: 'https://www.ai-doctor.com/',
-    type: 'website',
-    site_name: 'AI Doctor'
+    type: 'website'
   }}
 />
 <div class="form-container">
@@ -150,7 +155,7 @@ import { page } from '$app/stores';
         Please enter your primary health concern or symptom that you're currently experiencing. This will help us better understand the reason for your visit and guide our AI Doctor to provide a preliminary evaluation based on your input.
       </p>
       <textarea rows="5" id="chiefComplaint" name="chiefComplaint" bind:value="{chiefComplaint}" placeholder="e.g., Persistent headache, shortness of breath, chest pain..." />
-      <button type="button" on:click="{nextStep}" class="btn-primary">Next</button>
+      <button disabled={chiefComplaint.length <= 0} type="button" on:click="{nextStep}" class="btn-primary">Next</button>
     </div>
 
     <div class="step {step === 1 ? 'active' : ''}">
