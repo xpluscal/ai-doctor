@@ -48,7 +48,7 @@ export function createDiagnosisPrompt(userData: UserData): string {
     medicalHistory,
   } = userData;
 
-  let prompt = `Please provide up to 4 potential diagnoses for the following patient information along with a likelihood score as percentage value for each diagnosis, order by likelihood descrending:\n\n` +
+  let prompt = `Please provide up to 4 potential diagnoses for the following information along with a likelihood score based on the information given as percentage value for each diagnosis, order by likelihood descrending:\n\n` +
     `Chief Complaint: ${chiefComplaint}\n` +
     `Age: ${age}\n` +
     `Sex: ${sex}\n` +

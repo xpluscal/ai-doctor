@@ -148,6 +148,7 @@ import { page } from '$app/stores';
         return async ({ result }) => {
             if(result.status === 200) {
                 diagnoses = result.data.result;
+                console.log(diagnoses);
                 comment = result.data.comment;
                 state = 4;
             } else {
@@ -252,7 +253,7 @@ import { page } from '$app/stores';
             </ul>
 
             <h3>
-                Next Steps
+                Potential Next Steps
             </h3>
 
             <ul>
@@ -276,7 +277,7 @@ import { page } from '$app/stores';
 <dialog open={modalOpen}>
   <article>
     <div class="scroll-modal">
-      <article class="warning"><small>This app is experimental and for educational purposes only. Use at your own risk.</small></article>
+      <article class="warning"><small>This app is experimental and for educational purposes only. Use at your own risk and always consult a health professional before taking any actions.</small></article>
 
       <h3>Terms of Use</h3>
 
