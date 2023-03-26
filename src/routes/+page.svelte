@@ -138,11 +138,9 @@ import { page } from '$app/stores';
         loading = true;
         state = 2;
         return async ({ result }) => {
-            console.log("diagnoses: ",result);
             if(result.status === 200) {
                 diagnoses = result.data.result;
                 comment = result.data.comment;
-                console.log("diagnoses: ",diagnoses);
                 state = 4;
             } else {
                 state = 3;
