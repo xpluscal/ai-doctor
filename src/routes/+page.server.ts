@@ -23,26 +23,26 @@ export const actions = {
 
     try {
         const diagnosis = createDiagnosisPrompt(userData);
-        const diagnosisResponse = await callGPTApi(diagnosis);
+        const diagnosisResponse = await callGPTApiWithRetry(diagnosis);
 
-        // console.log(diagnosisResponse);
+        console.log(diagnosisResponse);
 
         const {diagnoses: parseDiagnosticResponse, comment} = JSON.parse(diagnosisResponse);
-        // console.log(comment);
+        console.log(comment);
 
         const treatments:any[] = [];
         const nextSteps:any[] = [];
 
         for (const diagnosis of parseDiagnosticResponse) {
             const treatment = createTreatmentsPrompt(JSON.stringify(diagnosis));
-            // console.log(treatment);
-            const treatmentResponse = await callGPTApi(treatment);
-            // console.log(treatmentResponse);
+            console.log(treatment);
+            const treatmentResponse = await callGPTApiWithRetry(treatment);
+            console.log(treatmentResponse);
             treatments.push(JSON.parse(treatmentResponse));
             const nextStep = createNextStepsPrompt(JSON.stringify(diagnosis));
-            // console.log(nextStep);
-            const nextStepResponse = await callGPTApi(nextStep);
-            // console.log(nextStepResponse);
+            console.log(nextStep);
+            const nextStepResponse = await callGPTApiWithRetry(nextStep);
+            console.log(nextStepResponse);
             nextSteps.push(JSON.parse(nextStepResponse));
         }
 
@@ -69,6 +69,21 @@ export const actions = {
     }
   }
 } satisfies Actions;
+
+async function callGPTApiWithRetry(prompt, retries = 5) {
+  try {
+    return await callGPTApi(prompt);
+  } catch (e) {
+    if (e.response?.status === 429 && retries > 0) {
+      const delay = Math.pow(2, 5 - retries) * 1000 + Math.random() * 1000;
+      console.log(`Received 429 error. Retrying in ${delay} ms...`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      return callGPTApiWithRetry(prompt, retries - 1);
+    } else {
+      throw e;
+    }
+  }
+}
 
 async function callGPTApi(prompt:string) {
   const response = await openai.createCompletion({
