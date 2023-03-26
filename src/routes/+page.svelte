@@ -87,6 +87,18 @@ import { page } from '$app/stores';
     background-color: #EA564A;
     color: #fff;
   }
+
+  .actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  label{
+    font-weight: 600;
+  }
+
 </style>
 
 <svelte:head>
@@ -167,23 +179,28 @@ import { page } from '$app/stores';
       <label for="occupation">Occupation</label>
       <input id="occupation" name="occupation" bind:value="{occupation}" />
 
+      <div class="actions">
         <button type="button" on:click="{previousStep}" class="secondary">Previous</button>
 
         <button type="button" on:click="{nextStep}" class="btn-primary">Next</button>
+      </div>
 
     </div>
 
     <div class="step {step === 2 ? 'active' : ''}">
 
-        <label for="lifestyle">Lifestyle</label>
-        <p>Please provide a brief description of your daily habits, including diet, exercise, sleep, and any other relevant aspects of your lifestyle. This information will help the AI Doctor take into account potential contributing factors to your health concerns.</p>
-        <textarea id="lifestyle" name="lifestyle" placeholder="e.g., Mostly sedentary job, vegetarian diet, moderate exercise 3 times a week, 7 hours of sleep per night..." bind:value="{lifestyle}" />
+        <label for="lifestyle">Lifestyle (Optional)</label>
+        <p><small>Please provide a brief description of your daily habits, including diet, exercise, sleep, and any other relevant aspects of your lifestyle. This information will help the AI Doctor take into account potential contributing factors to your health concerns.</small></p>
+        <textarea rows={5} id="lifestyle" name="lifestyle" placeholder="e.g., Mostly sedentary job, vegetarian diet, moderate exercise 3 times a week, 7 hours of sleep per night..." bind:value="{lifestyle}" />
 
-        <label for="medicalHistory">Medical History</label>
+        <!-- <label for="medicalHistory">Medical History</label>
         <p>Please list any known medical conditions, past surgeries, or significant health events you have experienced, as well as any medications you are currently taking. This information will assist the AI Doctor in understanding your overall health background and considering any potential interactions or complications.</p>
-        <textarea id="medicalHistory" name="medicalHistory" placeholder="e.g., Hypertension, appendectomy in 2015, currently taking lisinopril 10mg daily..." bind:value="{medicalHistory}"></textarea>
-        <button type="button" on:click="{previousStep}" class="secondary">Previous</button>
-        <button type="submit" class="btn-primary">Submit</button>
+        <textarea id="medicalHistory" name="medicalHistory" placeholder="e.g., Hypertension, appendectomy in 2015, currently taking lisinopril 10mg daily..." bind:value="{medicalHistory}"></textarea> -->
+
+        <div class="actions">
+          <button type="button" on:click="{previousStep}" class="secondary">Previous</button>
+          <button type="submit" class="btn-primary">Submit</button>
+        </div>
     </div>
 
     </form>

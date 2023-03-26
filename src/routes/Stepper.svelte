@@ -60,12 +60,28 @@
     .active{
         font-weight: bold;
     }
+
+    @media (max-width: 600px) {
+        .steps div small {
+            display: none;
+        }
+
+        .steps div::before {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background: #ccc;
+            /* padding: 0.5rem; */
+            margin-right: 0rem;
+            margin-top: 1rem;
+        }
+    }
 </style>
 
 <div class="steps">
     {#each steps as step, index}
         <div class="{index === current ? "active" : ""}">
-            <span>{step.title}</span>
+            <small>{step.title}</small>
         </div>
     {/each}
 </div>
