@@ -58,7 +58,7 @@ import { page } from '$app/stores';
   }
 
   .scroll-modal{
-    height: 250px;
+    height: 340px;
     max-height: 80vh;
     overflow-y: scroll;
   }
@@ -86,6 +86,14 @@ import { page } from '$app/stores';
   .error{
     background-color: #EA564A;
     color: #fff;
+  }
+
+  .warning{
+    background-color: #F7B500;
+    color: #fff;
+    padding: 1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
   }
 
   .actions{
@@ -268,7 +276,10 @@ import { page } from '$app/stores';
 <dialog open={modalOpen}>
   <article>
     <div class="scroll-modal">
+      <article class="warning"><small>This app is experimental and for educational purposes only. Use at your own risk.</small></article>
+
       <h3>Terms of Use</h3>
+
       <small>
         <p>By using this website, you acknowledge and agree that the website owners and operators, including their employees, agents, or partners, shall not be held responsible or liable for any consequences, direct or indirect, arising from the information provided on this website, including any diagnosis, potential treatments, and next steps.</p>
         <p>You understand that the information provided is for informational and educational purposes only and should not be considered professional medical advice, diagnosis, or treatment.</p>
