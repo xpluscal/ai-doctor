@@ -74,6 +74,19 @@ import { page } from '$app/stores';
     max-width: 400px;
     margin-right: 1rem;
   }
+
+  .bottom-footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    width: 100%;
+  }
+
+  .error{
+    background-color: #EA564A;
+    color: #fff;
+  }
 </style>
 
 <svelte:head>
@@ -177,7 +190,7 @@ import { page } from '$app/stores';
   {:else if state === 2}
     <article aria-busy="true">Generating Diagnosis...</article>
   {:else if state === 3}
-    <p>Something went wrong.</p>
+    <article class="error">Sorry, something went wrong. Please try again.</article>
   {:else}
 
     <h1>Results: </h1>
@@ -228,6 +241,10 @@ import { page } from '$app/stores';
   {/if}
 </div>
 
+<div class="bottom-footer">
+  <a href="#" on:click|preventDefault={() => modalOpen = true}>Terms of Use / Privacy Policy</a>
+</div>
+
 <dialog open={modalOpen}>
   <article>
     <div class="scroll-modal">
@@ -256,7 +273,7 @@ import { page } from '$app/stores';
     </div>
     <footer>
       <small>By clicking on "Accept" you agree to the terms of this Privacy Policy and Terms of Use.</small>
-      <a on:click={() => modalOpen = false} href="#confirm" role="button">Accept</a>
+      <a on:click|preventDefault={() => modalOpen = false} href="#" role="button">Accept</a>
     </footer>
   </article>
 </dialog>
