@@ -2,6 +2,7 @@
 import {enhance} from '$app/forms';
 import Stepper from './Stepper.svelte';
 import SvelteSeo from "svelte-seo";
+import { page } from '$app/stores';
 
   let step = 0;
   let chiefComplaint;
@@ -16,6 +17,7 @@ import SvelteSeo from "svelte-seo";
   let loading = false;
   let diagnoses = [];
   let comment = "";
+  let modalOpen = true;
 
   let state = 1;
 
@@ -54,6 +56,11 @@ import SvelteSeo from "svelte-seo";
   .logo{
     height: 56px;
   }
+
+  .scroll-modal{
+    height: 160px;
+    overflow-y: scroll;
+  }
 </style>
 
 <svelte:head>
@@ -68,7 +75,7 @@ import SvelteSeo from "svelte-seo";
   openGraph={{
     title: 'AI Doctor | AI-Powered Medical Assessment',
     description: 'Get a preliminary evaluation of your health concerns using AI-powered medical assessment.',
-    image: 'https://www.ai-doctor.com/svelte-seo.png',
+    image: $page.url.origin + '/seo-image.png',
     url: 'https://www.ai-doctor.com/',
     type: 'website',
     site_name: 'AI Doctor'
@@ -207,3 +214,23 @@ import SvelteSeo from "svelte-seo";
     {/each}
   {/if}
 </div>
+
+<dialog open={modalOpen}>
+  <article>
+    <header>
+      <!-- <a href="#close" aria-label="Close" class="close"></a> -->
+      Terms of Use
+    </header>
+    <div class="scroll-modal">
+      <small>
+        <p>By using this website, you acknowledge and agree that the website owners and operators, including their employees, agents, or partners, shall not be held responsible or liable for any consequences, direct or indirect, arising from the information provided on this website, including any diagnosis, potential treatments, and next steps.</p>
+        <p>You understand that the information provided is for informational and educational purposes only and should not be considered professional medical advice, diagnosis, or treatment.</p>
+        <p>You agree to seek the advice of a qualified healthcare professional for any health or medical concerns before making any decisions based on the information provided on this website.</p>
+        <p>The website owners and operators disclaim all liability for any damages or losses, direct or indirect, that may result from your use of or reliance on the information provided on this website.</p>
+      </small>
+    </div>
+    <footer>
+      <a on:click={() => modalOpen = false} href="#confirm" role="button">Accept</a>
+    </footer>
+  </article>
+</dialog>
