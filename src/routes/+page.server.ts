@@ -27,7 +27,8 @@ export const actions = {
 
         // console.log(diagnosisResponse);
 
-        const parseDiagnosticResponse = JSON.parse(diagnosisResponse);
+        const {diagnoses: parseDiagnosticResponse, comment} = JSON.parse(diagnosisResponse);
+        // console.log(comment);
 
         const treatments:any[] = [];
         const nextSteps:any[] = [];
@@ -54,7 +55,8 @@ export const actions = {
 });
 
         return {
-            result: combinedArray
+            result: combinedArray,
+            comment
         };
     } catch (e) {
         console.log(e);
@@ -72,7 +74,7 @@ async function callGPTApi(prompt:string) {
   const response = await openai.createCompletion({
     model: 'text-davinci-003', // Use the desired GPT-3.5 engine
     prompt: prompt,
-    max_tokens: 150,
+    max_tokens: 350,
     n: 1,
     stop: null,
     temperature: 0.8,

@@ -14,6 +14,7 @@ import Stepper from './Stepper.svelte';
   let medicalHistory;
   let loading = false;
   let diagnoses = [];
+  let comment = "";
 
   let state = 1;
 
@@ -71,6 +72,7 @@ import Stepper from './Stepper.svelte';
             console.log("diagnoses: ",result);
             if(result.status === 200) {
                 diagnoses = result.data.result;
+                comment = result.data.comment;
                 console.log("diagnoses: ",diagnoses);
                 state = 4;
             } else {
@@ -138,14 +140,21 @@ import Stepper from './Stepper.svelte';
   {:else if state === 3}
     <p>Something went wrong.</p>
   {:else}
+
+    <h1>Results: </h1>
+
     <article><small><b>Disclaimer:</b> The information provided on this website, including any diagnosis, potential treatments, and next steps, is intended for informational and educational purposes only and should not be considered professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare professional before making any decisions regarding your health or medical conditions. Never disregard, avoid, or delay seeking professional medical advice because of something you have read on this website. If you believe you are experiencing a medical emergency, call your local emergency number or seek immediate medical attention.</small></article>
+
+    {#if comment}
+        <article>{comment}</article>
+    {/if}
 
     {#each diagnoses as diagnosis}
         <article>
             <h2>
                 {diagnosis.diagnosis.title}
             </h2>
-            <span>Likelihood: {diagnosis.diagnosis.likelihood_score}</span>
+            <!-- <span>Likelihood: {diagnosis.diagnosis.likelihood_score}</span> -->
             <p>
                 {diagnosis.diagnosis.description}
             </p>

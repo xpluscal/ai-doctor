@@ -48,7 +48,7 @@ export function createDiagnosisPrompt(userData: UserData): string {
     medicalHistory,
   } = userData;
 
-  let prompt = `Please provide up to 2 potential diagnoses for the following patient information along with a likelihood score as percentage value for each diagnosis:\n\n` +
+  let prompt = `Please provide up to 4 potential diagnoses for the following patient information along with a likelihood score as percentage value for each diagnosis, order by likelihood descrending:\n\n` +
     `Chief Complaint: ${chiefComplaint}\n` +
     `Age: ${age}\n` +
     `Sex: ${sex}\n` +
@@ -57,7 +57,7 @@ export function createDiagnosisPrompt(userData: UserData): string {
     `Occupation: ${occupation}\n` +
     `Lifestyle: ${lifestyle}\n` +
     `Medical History: ${medicalHistory}.\n\n` +
-    `Please provide responses as structured json that is an array where each entry represents a diagnosis with a title, description and a likelihood_score. Please make your response fit the maximum characters allowed and do not include spaces, line breaks or any other non-allowed symbols in json and ensure it's valid json.`;
+    `Please provide responses as structured json that is 1. an array called "diagnoses" where each entry represents a diagnosis with a title, description and a likelihood_score and 2. "comment": a comment that represents a critical reflection of your confidence in the overall results. Please make your response fit the maximum characters allowed and do not include spaces, line breaks or any other non-allowed symbols in json and ensure it's valid json.`;
 
   return prompt;
 }
