@@ -6,33 +6,14 @@ interface UserData {
   weight: number;
   height: number;
   occupation: string;
+  country: string;
   lifestyle: string;
   medicalHistory: string;
 }
 
-export function createGPTPrompt(userData: UserData): string {
-  const {
-    chiefComplaint,
-    age,
-    sex,
-    weight,
-    height,
-    occupation,
-    lifestyle,
-    medicalHistory,
-  } = userData;
-
-  let prompt = `Please provide a diagnosis, potential treatments, and next steps for me:\n\n` +
-    `Chief Complaint: ${chiefComplaint}\n` +
-    `Age: ${age}\n` +
-    `Sex: ${sex}\n` +
-    `Weight: ${weight} kg\n` +
-    `Height: ${height} cm\n` +
-    `Occupation: ${occupation}\n` +
-    `Lifestyle: ${lifestyle}\n` +
-    `Medical History: ${medicalHistory}.\n\n` + 
-    `Please provide your response as structured json where each potential diagnosis is its own object and contains a likelihood score as well as the information requested above and an array of potential way to treat it and an array of potential next steps. Please include as many potential diagnoses as necessary, up to a maximum of 3.`;
-
+export function createPrompt(userData: UserData): string {
+  const { chiefComplaint, age, sex, weight, height, occupation, country, lifestyle, medicalHistory } = userData;
+  const prompt = `Diagnose and suggest treatments/next steps for:\n\nChief Complaint: ${chiefComplaint}\nAge: ${age}\nSex: ${sex}\nWeight: ${weight} kg\nHeight: ${height} cm\nOccupation: ${occupation}\nCountry of residence: ${country}\nLifestyle: ${lifestyle}\nMedical History: ${medicalHistory}.\n\nProvide 1-4 potential diagnoses in JSON format as array field "diagnoses", ordered by likelihood descending, each with title, description, likelihood score (in %, determined by information provided as well as global statistics), up to 4-6 "treatments" (Include medications as well as lifestyle and self-care recommendations), and up to 4-6 "next_steps" (order by certainty and urgency of the next step with the most important and urgent being first) arrays of strings with sufficient detail. Also add a string "comment" that represents your overall confidence in the results given the amount of data provided. Ensure VALID JSON and minimize characters used. Incorrect JSON will not be accepted. No trailing commas in JSON arrays. Talk directly to user and do not refer as patient. The response can not be longer than 1023 tokens.`;
   return prompt;
 }
 

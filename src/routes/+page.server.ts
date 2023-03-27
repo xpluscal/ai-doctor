@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { createGPTPrompt, createDiagnosisPrompt, createTreatmentsPrompt, createNextStepsPrompt } from '$lib/gptHelper';
+import { createPrompt } from '$lib/gptHelper';
 import { Configuration, OpenAIApi } from "openai";
 import { env } from '$env/dynamic/private';
 import type { UserData } from '$lib/gptHelper';
@@ -21,46 +21,22 @@ export const actions = {
         ...Object.fromEntries(form)
     } as UserData;
 
+    // console.log(userData);
+
     try {
-        const diagnosis = createDiagnosisPrompt(userData);
-        const diagnosisResponse = await callGPTApiWithRetry(diagnosis);
+      const diagnosis = createPrompt(userData);
+      const diagnosisResponse = await callGPTApiWithRetry(diagnosis);
+      // console.log(diagnosisResponse);
 
-        console.log(diagnosisResponse);
+      const combinedArray = JSON.parse(diagnosisResponse);
+      // console.log(combinedArray);
 
-        const {diagnoses: parseDiagnosticResponse, comment} = JSON.parse(diagnosisResponse);
-        console.log(comment);
-
-        const treatments:any[] = [];
-        const nextSteps:any[] = [];
-
-        for (const diagnosis of parseDiagnosticResponse) {
-            const treatment = createTreatmentsPrompt(JSON.stringify(diagnosis));
-            console.log(treatment);
-            const treatmentResponse = await callGPTApiWithRetry(treatment);
-            console.log(treatmentResponse);
-            treatments.push(JSON.parse(treatmentResponse));
-            const nextStep = createNextStepsPrompt(JSON.stringify(diagnosis));
-            console.log(nextStep);
-            const nextStepResponse = await callGPTApiWithRetry(nextStep);
-            console.log(nextStepResponse);
-            nextSteps.push(JSON.parse(nextStepResponse));
-        }
-
-        const combinedArray = parseDiagnosticResponse.map((diagnosis:any, index:number) => {
-        return {
-            diagnosis: diagnosis,
-            treatments: treatments[index],
-            nextSteps: nextSteps[index],
-        };
-});
-
-        return {
-            result: combinedArray,
-            comment
-        };
+      return {
+        ...combinedArray,
+      }
     } catch (e) {
-        console.log(e);
-        throw error(500, 'An error occurred while processing your request.');
+      console.log(e);
+      throw error(500, 'An error occurred while processing your request.');
     }
 
     return {
@@ -89,10 +65,10 @@ async function callGPTApi(prompt:string) {
   const response = await openai.createCompletion({
     model: 'text-davinci-003', // Use the desired GPT-3.5 engine
     prompt: prompt,
-    max_tokens: 350,
+    max_tokens: 1024,
     n: 1,
     stop: null,
-    temperature: 0.8,
+    temperature: 0.3,
   });
 
   return response?.data?.choices[0].text.trim();

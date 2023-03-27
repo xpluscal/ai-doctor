@@ -13,6 +13,7 @@ import { page } from '$app/stores';
   let height;
   let occupation;
   let lifestyle;
+  let country;
   let medicalHistory;
   let loading = false;
   let diagnoses = [];
@@ -138,18 +139,18 @@ import { page } from '$app/stores';
         <span>Self Assessment</span>
     </div>
 
-    {#if state !== 4 && state !== 2}
-    <Stepper current={step}/>
-    {/if}
   {#if state === 1}
+  <Stepper current={step}/>
   <form method="POST" action="?/submit" use:enhance={({ form, data, cancel }) => {
         loading = true;
         state = 2;
         return async ({ result }) => {
+          console.log(result);
             if(result.status === 200) {
-                diagnoses = result.data.result;
+                diagnoses = result.data.diagnoses;
                 console.log(diagnoses);
                 comment = result.data.comment;
+                console.log(comment);
                 state = 4;
             } else {
                 state = 3;
@@ -159,7 +160,7 @@ import { page } from '$app/stores';
     <div class="step {step === 0 ? 'active' : ''}">
       <!-- <label for="chiefComplaint">Chief Complaint</label> -->
       <p>
-        Please enter your primary health concern or symptom that you're currently experiencing. This will help us better understand the reason for your visit and guide our AI Doctor to provide a preliminary evaluation based on your input.
+        Please enter your primary health concern or symptom that you're currently experiencing. Please try to be specific.
       </p>
       <textarea rows="5" id="chiefComplaint" name="chiefComplaint" bind:value="{chiefComplaint}" placeholder="e.g., Persistent headache, shortness of breath, chest pain..." />
       <button disabled={chiefComplaint.length <= 0} type="button" on:click="{nextStep}" class="btn-primary">Next</button>
@@ -191,6 +192,9 @@ import { page } from '$app/stores';
       <label for="occupation">Occupation</label>
       <input id="occupation" name="occupation" bind:value="{occupation}" />
 
+      <label for="country">Country of Residence</label>
+      <input id="country" name="country" bind:value="{country}" />
+
       <div class="actions">
         <button type="button" on:click="{previousStep}" class="secondary">Previous</button>
 
@@ -205,9 +209,9 @@ import { page } from '$app/stores';
         <p><small>Please provide a brief description of your daily habits, including diet, exercise, sleep, and any other relevant aspects of your lifestyle. This information will help the AI Doctor take into account potential contributing factors to your health concerns.</small></p>
         <textarea rows={5} id="lifestyle" name="lifestyle" placeholder="e.g., Mostly sedentary job, vegetarian diet, moderate exercise 3 times a week, 7 hours of sleep per night..." bind:value="{lifestyle}" />
 
-        <!-- <label for="medicalHistory">Medical History</label>
+        <label for="medicalHistory">Medical History (Optional)</label>
         <p>Please list any known medical conditions, past surgeries, or significant health events you have experienced, as well as any medications you are currently taking. This information will assist the AI Doctor in understanding your overall health background and considering any potential interactions or complications.</p>
-        <textarea id="medicalHistory" name="medicalHistory" placeholder="e.g., Hypertension, appendectomy in 2015, currently taking lisinopril 10mg daily..." bind:value="{medicalHistory}"></textarea> -->
+        <textarea id="medicalHistory" name="medicalHistory" placeholder="e.g., Hypertension, appendectomy in 2015, currently taking lisinopril 10mg daily..." bind:value="{medicalHistory}"></textarea>
 
         <div class="actions">
           <button type="button" on:click="{previousStep}" class="secondary">Previous</button>
@@ -217,7 +221,7 @@ import { page } from '$app/stores';
 
     </form>
   {:else if state === 2}
-    <article aria-busy="true">Generating Diagnosis...</article>
+    <article aria-busy="true">Evaluating Possible Causes and Treatments...</article>
   {:else if state === 3}
     <article class="error">Sorry, something went wrong. Please try again.</article>
   {:else}
@@ -233,11 +237,11 @@ import { page } from '$app/stores';
     {#each diagnoses as diagnosis}
         <article>
             <h2>
-                {diagnosis.diagnosis.title}
+                {diagnosis.title}
             </h2>
             <!-- <span>Likelihood: {diagnosis.diagnosis.likelihood_score}</span> -->
             <p>
-                {diagnosis.diagnosis.description}
+                {diagnosis.description}
             </p>
 
             <h3>
@@ -257,7 +261,7 @@ import { page } from '$app/stores';
             </h3>
 
             <ul>
-                {#each diagnosis.nextSteps as nextStep}
+                {#each diagnosis.next_steps as nextStep}
                     <li>
                         {nextStep}
                     </li>
@@ -271,6 +275,7 @@ import { page } from '$app/stores';
 </div>
 
 <div class="bottom-footer">
+  <span>This tool does not provide medical advice. &nbsp;</span>
   <a href="#" on:click|preventDefault={() => modalOpen = true}>Terms of Use / Privacy Policy</a>
 </div>
 
