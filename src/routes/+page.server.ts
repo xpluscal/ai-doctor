@@ -62,14 +62,17 @@ async function callGPTApiWithRetry(prompt, retries = 5) {
 }
 
 async function callGPTApi(prompt:string) {
-  const response = await openai.createCompletion({
-    model: 'text-davinci-003', // Use the desired GPT-3.5 engine
-    prompt: prompt,
-    max_tokens: 1024,
-    n: 1,
-    stop: null,
-    temperature: 0.3,
-  });
+  // const models = await openai.listModels();
+  // console.log(models.data.data);
+  const response = await openai.createChatCompletion({
+		model: 'gpt-4', // Use the desired GPT-3.5 engine
+		messages: [{ role: 'user', content: prompt }],
+		max_tokens: 1024,
+		n: 1,
+		temperature: 0.3
+	});
 
-  return response?.data?.choices[0].text.trim();
+  // console.log(response.data?.choices[0]);
+
+  return response?.data?.choices[0].message.content.trim();
 }
